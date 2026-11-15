@@ -1,0 +1,261 @@
+.main-bg {
+  --background: #0B0F17;
+  color: #FFFFFF;
+}
+
+.app-container {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 20px 16px 90px 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.header-section {
+  text-align: right;
+  margin-bottom: 24px;
+  
+  .welcome-text {
+    font-size: 13px;
+    color: #94A3B8;
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 800;
+    margin: 4px 0 0 0;
+    color: #FFFFFF;
+  }
+}
+
+.upload-box-card {
+  background: #111827;
+  border: 2px dashed #0D9488;
+  border-radius: 24px;
+  padding: 30px 20px;
+  text-align: center;
+  margin-bottom: 24px;
+
+  .upload-icon-circle {
+    width: 50px;
+    height: 50px;
+    background: #134E4A;
+    color: #2DD4BF;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+  }
+
+  p {
+    font-size: 12px;
+    color: #64748B;
+    margin: 0 0 16px 0;
+  }
+
+  .action-btn {
+    display: inline-block;
+    background: #2DD4BF;
+    color: #0B0F17;
+    padding: 10px 28px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+  }
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #94A3B8;
+  margin-bottom: 12px;
+  text-align: right;
+}
+
+.history-card {
+  background: #111827;
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+
+  .file-info {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+
+    .file-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #F8FAFC;
+    }
+
+    .file-time {
+      font-size: 11px;
+      color: #64748B;
+      margin-top: 3px;
+    }
+  }
+
+  .status-badge {
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+
+    &.danger { background: #451A03; color: #F87171; }
+    &.warning { background: #422006; color: #FBBF24; }
+    &.safe { background: #064E3B; color: #34D399; }
+  }
+}
+
+/* شاشة التقرير */
+.report-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  cursor: pointer;
+  color: #F8FAFC;
+}
+
+.gauge-card-dark {
+  background: #111827;
+  border-radius: 24px;
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+
+  .svg-wrapper {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    margin: 0 auto 10px auto;
+
+    .progress-ring {
+      transform: rotate(-90deg);
+    }
+
+    .percentage-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 26px;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+  }
+
+  .gauge-label {
+    font-size: 12px;
+    color: #94A3B8;
+    margin-bottom: 6px;
+  }
+
+  .gauge-desc {
+    font-size: 13px;
+    color: #CBD5E1;
+    margin: 0;
+  }
+}
+
+.transcript-card-dark {
+  background: #111827;
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.8;
+  margin-bottom: 14px;
+  text-align: right;
+
+  p {
+    margin: 0 0 10px 0;
+    &:last-child { margin-bottom: 0; }
+  }
+
+  .highlight-red {
+    color: #F87171;
+    font-weight: 600;
+  }
+}
+
+.tactics-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+
+  .tactic-pill {
+    background: #1E293B;
+    color: #CBD5E1;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+}
+
+.bottom-buttons {
+  display: flex;
+  gap: 10px;
+
+  button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid #334155;
+    color: #F8FAFC;
+  }
+
+  .btn-solid {
+    background: #2DD4BF;
+    border: none;
+    color: #0B0F17;
+  }
+}
+
+/* الشريط السفلي */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #0B0F17;
+  border-top: 1px solid #1E293B;
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  z-index: 1000;
+
+  .nav-item {
+    font-size: 13px;
+    color: #64748B;
+    font-weight: 600;
+    cursor: pointer;
+
+    &.active {
+      color: #2DD4BF;
+    }
+  }
+}

@@ -1,0 +1,102 @@
+<ion-content [fullscreen]="true" class="main-bg">
+  <div class="app-container" dir="rtl">
+    
+    <!-- عرض الشاشة حسب الحالة -->
+    <div *ngIf="currentScreen === 'home'">
+      <div class="header-section">
+        <span class="welcome-text">مرحباً بك</span>
+        <h1>حارس المكالمات</h1>
+      </div>
+
+      <!-- صندوق رفع المكالمة -->
+      <div class="upload-box-card">
+        <div class="upload-icon-circle">
+          <ion-icon name="arrow-up-outline"></ion-icon>
+        </div>
+        <h3>ارفع مكالمة للتحليل</h3>
+        <p>MP3 · WAV · M4A</p>
+        <label for="audioUpload" class="action-btn">اختر ملف</label>
+        <input type="file" id="audioUpload" accept="audio/*" (change)="handleFileUpload($event)" hidden />
+      </div>
+
+      <!-- آخر التحليلات -->
+      <div class="section-title">آخر التحليلات</div>
+      
+      <div class="history-card" (click)="currentScreen = 'report'">
+        <div class="file-info">
+          <span class="file-name">مكالمة_بنك_3.01.mp3</span>
+          <span class="file-time">اليوم · 3:42 د</span>
+        </div>
+        <span class="status-badge danger">خطرة</span>
+      </div>
+
+      <div class="history-card" (click)="currentScreen = 'report'">
+        <div class="file-info">
+          <span class="file-name">مكالمة_توصيل.wav</span>
+          <span class="file-time">أمس · 1:15 د</span>
+        </div>
+        <span class="status-badge warning">مشبوهة</span>
+      </div>
+
+      <div class="history-card" (click)="currentScreen = 'report'">
+        <div class="file-info">
+          <span class="file-name">مكالمة_عائلية.m4a</span>
+          <span class="file-time">قبل يومين · 6:08 د</span>
+        </div>
+        <span class="status-badge safe">آمنة</span>
+      </div>
+    </div>
+
+    <!-- شاشة التقرير -->
+    <div *ngIf="currentScreen === 'report'">
+      <div class="report-header" (click)="currentScreen = 'home'">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+        <span>تقرير التحليل</span>
+      </div>
+
+      <div class="gauge-card-dark">
+        <div class="svg-wrapper">
+          <svg class="progress-ring" width="130" height="130">
+            <circle class="ring-bg" stroke="#1E293B" stroke-width="10" fill="transparent" r="50" cx="65" cy="65"/>
+            <circle class="ring-fill" 
+                    stroke="#FF5A5F"
+                    [style.stroke-dashoffset]="calculateDashOffset()"
+                    stroke-dasharray="314"
+                    stroke-width="10" 
+                    stroke-linecap="round"
+                    fill="transparent" r="50" cx="65" cy="65"/>
+          </svg>
+          <div class="percentage-text">87%</div>
+        </div>
+        <div class="gauge-label">مستوى الخطر</div>
+        <p class="gauge-desc">المتصل ينتحل صفة موظف بنك ويطلب رمز التحقق.</p>
+      </div>
+
+      <div class="section-title">نص المكالمة</div>
+      
+      <div class="transcript-card-dark">
+        <p><strong>المتصل:</strong> السلام عليكم، معك <span class="highlight-red">موظف من البنك</span>، حسابك فيه مشكلة.</p>
+        <p><strong>المستقبل:</strong> مشكلة؟ وش هي؟</p>
+        <p><strong>المتصل:</strong> نحتاج <span class="highlight-red">رمز التحقق</span> اللي وصلك الحين لإيقاف العملية.</p>
+      </div>
+
+      <div class="tactics-row">
+        <span class="tactic-pill">انتحال صفة</span>
+        <span class="tactic-pill">طلب رمز تحقق</span>
+        <span class="tactic-pill">استعجال</span>
+      </div>
+
+      <div class="bottom-buttons">
+        <button class="btn-outline">حفظ</button>
+        <button class="btn-solid" (click)="currentScreen = 'home'">مشاركة التقرير</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- الشريط السفلي (بدون إعدادات) -->
+  <div class="bottom-nav" dir="rtl">
+    <div class="nav-item" [class.active]="currentScreen === 'home'" (click)="currentScreen = 'home'">الرئيسية</div>
+    <div class="nav-item">السجل</div>
+  </div>
+</ion-content>
