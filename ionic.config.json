@@ -1,0 +1,7 @@
+{
+  "name": "VishingApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
