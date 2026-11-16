@@ -20,13 +20,13 @@ import { CommonModule } from '@angular/common';
 import { IonContent } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { micOutline, chevronForwardOutline } from 'ionicons/icons';
-
+import { RouterModule } from '@angular/router'; 
 @Component({
   selector: 'app-vishing',
   templateUrl: './vishing.page.html',
   styleUrls: ['./vishing.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent],
+  imports: [CommonModule, IonContent, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class VishingPage {
@@ -74,7 +74,19 @@ export class VishingPage {
       }, step.delay);
     });
   }
-
+// أضيفي هذه الدالة داخل الـ Class في vishing.page.ts
+onFileSelected(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    console.log('تم اختيار الملف:', file.name);
+    // هنا سيتم لاحقاً إرسال الملف لخادم FastAPI للتحليل
+    
+    // الانتقال الشاشي التلقائي لتقرير التحليل بعد اختيار الملف
+    this.currentScreen = 'report';
+  }
+  // تصفير قيمة الinput لكي يسمح باختيار نفس الملف أو ملف آخر مرة ثانية
+  event.target.value = '';
+}
   handleFileUpload(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -93,4 +105,7 @@ export class VishingPage {
   getRiskColor(): string {
     return this.riskPercentage >= 70 ? '#FF5A5F' : '#2AD8B4';
   }
+  saveReport() {
+  alert('تم حفظ التقرير بنجاح!');
+}
 }

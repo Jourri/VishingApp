@@ -1,22 +1,26 @@
 <ion-content [fullscreen]="true" class="main-bg">
   <div class="app-container" dir="rtl">
     
-    <!-- عرض الشاشة حسب الحالة -->
+    <!-- شاشة الرئيسية -->
     <div *ngIf="currentScreen === 'home'">
       <div class="header-section">
         <span class="welcome-text">مرحباً بك</span>
         <h1>حارس المكالمات</h1>
       </div>
 
-      <!-- صندوق رفع المكالمة -->
-      <div class="upload-box-card">
-        <div class="upload-icon-circle">
-          <ion-icon name="arrow-up-outline"></ion-icon>
+      <!-- بطاقة رفع المكالمة -->
+      <div class="upload-card">
+        <div class="upload-icon-box">
+          <ion-icon name="cloud-upload-outline"></ion-icon>
         </div>
         <h3>ارفع مكالمة للتحليل</h3>
-        <p>MP3 · WAV · M4A</p>
-        <label for="audioUpload" class="action-btn">اختر ملف</label>
-        <input type="file" id="audioUpload" accept="audio/*" (change)="handleFileUpload($event)" hidden />
+        <p class="formats-text">MP3 · WAV · M4A</p>
+        
+        <!-- زر يفتح نافذة اختيار الملفات -->
+        <button class="select-btn" (click)="fileInput.click()">اختر ملف</button>
+        
+        <!-- مستعرض الملفات المخفي -->
+        <input #fileInput type="file" accept=".mp3,.wav,.m4a" style="display: none;" (change)="onFileSelected($event)">
       </div>
 
       <!-- آخر التحليلات -->
@@ -43,60 +47,65 @@
           <span class="file-name">مكالمة_عائلية.m4a</span>
           <span class="file-time">قبل يومين · 6:08 د</span>
         </div>
-        <span class="status-badge safe">آمنة</span>
+        <span class="status-badge safe">آمِنة</span>
       </div>
     </div>
 
-    <!-- شاشة التقرير -->
+    <!-- شاشة تقرير التحليل -->
     <div *ngIf="currentScreen === 'report'">
-      <div class="report-header" (click)="currentScreen = 'home'">
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-        <span>تقرير التحليل</span>
+      <div class="report-header">
+        <button class="back-btn" (click)="currentScreen = 'home'">
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </button>
+        <h2>تقرير التحليل</h2>
       </div>
 
-      <div class="gauge-card-dark">
-        <div class="svg-wrapper">
-          <svg class="progress-ring" width="130" height="130">
-            <circle class="ring-bg" stroke="#1E293B" stroke-width="10" fill="transparent" r="50" cx="65" cy="65"/>
-            <circle class="ring-fill" 
-                    stroke="#FF5A5F"
-                    [style.stroke-dashoffset]="calculateDashOffset()"
-                    stroke-dasharray="314"
-                    stroke-width="10" 
-                    stroke-linecap="round"
-                    fill="transparent" r="50" cx="65" cy="65"/>
-          </svg>
-          <div class="percentage-text">87%</div>
+      <!-- دائرة الخطر -->
+      <div class="risk-circle-card">
+        <div class="progress-ring">
+          <span class="percentage">87%</span>
         </div>
-        <div class="gauge-label">مستوى الخطر</div>
-        <p class="gauge-desc">المتصل ينتحل صفة موظف بنك ويطلب رمز التحقق.</p>
+        <div class="risk-level-label">مستوى الخطر</div>
       </div>
 
-      <div class="section-title">نص المكالمة</div>
-      
-      <div class="transcript-card-dark">
-        <p><strong>المتصل:</strong> السلام عليكم، معك <span class="highlight-red">موظف من البنك</span>، حسابك فيه مشكلة.</p>
-        <p><strong>المستقبل:</strong> مشكلة؟ وش هي؟</p>
-        <p><strong>المتصل:</strong> نحتاج <span class="highlight-red">رمز التحقق</span> اللي وصلك الحين لإيقاف العملية.</p>
+      <!-- تفاصيل التهديد -->
+      <div class="threat-alert-box">
+        <p>المتصل ينتحل صفة موظف بنك ويطلب رمز التحقق.</p>
       </div>
 
-      <div class="tactics-row">
-        <span class="tactic-pill">انتحال صفة</span>
-        <span class="tactic-pill">طلب رمز تحقق</span>
-        <span class="tactic-pill">استعجال</span>
+      <!-- نص المكالمة -->
+      <div class="transcript-section">
+        <h3>نص المكالمة</h3>
+        <div class="chat-bubble call">
+          <strong>المتصل:</strong> السلام عليكم، معك موظف من البنك، حسابك فيه مشكلة.
+        </div>
+        <div class="chat-bubble reply">
+          <strong>المستقبل:</strong> مشكلة؟ وش هي؟
+        </div>
+        <div class="chat-bubble call">
+          <strong>المتصل:</strong> نحتاج رمز التحقق اللي وصلك الحين لإيقاف العملية.
+        </div>
       </div>
 
-      <div class="bottom-buttons">
-        <button class="btn-outline">حفظ</button>
-        <button class="btn-solid" (click)="currentScreen = 'home'">مشاركة التقرير</button>
+      <!-- التكتيكات المكتشفة -->
+      <div class="tactics-tags">
+        <span class="tag">انتحال صفة</span>
+        <span class="tag">طلب رمز تحقق</span>
+        <span class="tag">استعجال</span>
+      </div>
+
+      <!-- أزرار الإجراءات -->
+      <div class="report-actions">
+        <button class="action-btn outline" (click)="saveReport()">حفظ</button>
+        <button class="action-btn solid" routerLink="/alert">مشاركة التقرير</button>
       </div>
     </div>
 
   </div>
 
-  <!-- الشريط السفلي (بدون إعدادات) -->
+  <!-- الشريط السفلي الثابت -->
   <div class="bottom-nav" dir="rtl">
     <div class="nav-item" [class.active]="currentScreen === 'home'" (click)="currentScreen = 'home'">الرئيسية</div>
-    <div class="nav-item">السجل</div>
+    <div class="nav-item" routerLink="/history">السجل</div>
   </div>
 </ion-content>

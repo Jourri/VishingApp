@@ -1,0 +1,41 @@
+<ion-content [fullscreen]="true" class="alert-bg">
+  <div class="alert-container" dir="rtl">
+    
+    <div class="top-content">
+      <!-- أيقونة التحذير الدائرية -->
+      <div class="warning-circle">
+        <ion-icon name="warning-outline"></ion-icon>
+      </div>
+
+      <h1>تنبيه: احتمال احتيال عالٍ</h1>
+      <p class="subtitle">المتصل يطلب رمز التحقق وينتحل صفة موظف بنك.</p>
+
+      <!-- بطاقة الإرشادات -->
+      <div class="advice-card">
+        <h3>ماذا تفعل الآن؟</h3>
+        
+        <div class="advice-item">
+          <ion-icon name="checkmark-outline" class="check-icon"></ion-icon>
+          <span>لا تشارك رمز التحقق مع أحد</span>
+        </div>
+
+        <div class="advice-item">
+          <ion-icon name="checkmark-outline" class="check-icon"></ion-icon>
+          <span>أنهِ المكالمة فوراً</span>
+        </div>
+
+        <div class="advice-item">
+          <ion-icon name="checkmark-outline" class="check-icon"></ion-icon>
+          <span>تواصل مع البنك عبر الرقم الرسمي</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- الأزرار السفلية -->
+    <div class="action-buttons">
+  <button class="btn-danger-solid" routerLink="/vishing">عرض التقرير الكامل</button>
+  <button class="btn-danger-outline" routerLink="/vishing">إغلاق</button>
+</div>
+
+  </div>
+</ion-content>

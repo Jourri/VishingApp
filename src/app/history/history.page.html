@@ -1,0 +1,34 @@
+<ion-content [fullscreen]="true" class="main-bg">
+  <div class="app-container" dir="rtl">
+    
+    <div class="header-section">
+      <h1>السجل</h1>
+    </div>
+
+    <!-- أزرار الفلترة -->
+    <div class="filter-pills">
+      <button class="pill-btn" [class.active-all]="selectedFilter === 'all'" (click)="setFilter('all')">الكل</button>
+      <button class="pill-btn danger-pill" [class.active-filter]="selectedFilter === 'danger'" (click)="setFilter('danger')">خطرة</button>
+      <button class="pill-btn warning-pill" [class.active-filter]="selectedFilter === 'warning'" (click)="setFilter('warning')">مشبوهة</button>
+      <button class="pill-btn safe-pill" [class.active-filter]="selectedFilter === 'safe'" (click)="setFilter('safe')">آمنة</button>
+    </div>
+
+    <!-- قائمة المكالمات -->
+    <div class="history-list">
+      <div class="history-card" *ngFor="let call of filteredCalls" routerLink="/vishing">
+        <div class="file-info">
+          <span class="file-name">{{ call.name }}</span>
+          <span class="file-time">{{ call.time }}</span>
+        </div>
+        <span class="status-badge" [ngClass]="call.status">{{ call.label }}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- الشريط السفلي (بدون إعدادات) -->
+  <div class="bottom-nav" dir="rtl">
+  <div class="nav-item" routerLink="/vishing">الرئيسية</div>
+  <div class="nav-item active">السجل</div>
+</div>
+</ion-content>
