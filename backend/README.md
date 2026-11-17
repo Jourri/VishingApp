@@ -57,6 +57,19 @@ The API returns the transcribed Arabic text, detected phishing tactics, individu
 
 ## Model Weights
 
-Google Drive download link: **To be added**
+Download the trained AraBERT model weights (`model.safetensors`) from Google Drive:
 
-The model weights are required to run the backend. They are not included in the repository because of their file size.
+
+https://drive.google.com/file/d/1Ks_i2IFN2frJWJwAWYtTtZcLvMu4yLVn/view?usp=drive_link
+
+
+
+After downloading, place the file in:
+
+
+
+`backend/models/AraBERT_Model/model.safetensors`
+
+
+
+The model weights are required to run the backend. No model retraining is needed.
