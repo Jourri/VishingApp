@@ -60,44 +60,43 @@
         <h2>تقرير التحليل</h2>
       </div>
 
-      <!-- دائرة الخطر -->
-      <div class="risk-circle-card">
-        <div class="progress-ring">
-          <span class="percentage">87%</span>
-        </div>
-        <div class="risk-level-label">مستوى الخطر</div>
+      <!-- حالة التحميل أثناء الانتظار من السيرفر -->
+      <div *ngIf="isLoading" style="text-align: center; padding: 40px 0;">
+        <ion-spinner name="crescent" style="width: 50px; height: 50px; color: #FF5A5F;"></ion-spinner>
+        <p style="margin-top: 15px; color: #666; font-weight: bold;">{{ riskSummaryText }}</p>
       </div>
 
-      <!-- تفاصيل التهديد -->
-      <div class="threat-alert-box">
-        <p>المتصل ينتحل صفة موظف بنك ويطلب رمز التحقق.</p>
-      </div>
+      <!-- محتوى التقرير يظهر دائماً عند توفر البيانات -->
+      <div *ngIf="!isLoading || riskPercentage > 0">
+        <!-- دائرة الخطر -->
+        <div class="risk-circle-card">
+          <div class="progress-ring">
+            <span class="percentage">{{ riskPercentage }}%</span>
+          </div>
+          <div class="risk-level-label">مستوى الخطر</div>
+        </div>
 
-      <!-- نص المكالمة -->
-      <div class="transcript-section">
-        <h3>نص المكالمة</h3>
-        <div class="chat-bubble call">
-          <strong>المتصل:</strong> السلام عليكم، معك موظف من البنك، حسابك فيه مشكلة.
+        <!-- تفاصيل التهديد -->
+        <div class="threat-alert-box">
+          <p>{{ riskSummaryText }}</p>
         </div>
-        <div class="chat-bubble reply">
-          <strong>المستقبل:</strong> مشكلة؟ وش هي؟
-        </div>
-        <div class="chat-bubble call">
-          <strong>المتصل:</strong> نحتاج رمز التحقق اللي وصلك الحين لإيقاف العملية.
-        </div>
-      </div>
 
-      <!-- التكتيكات المكتشفة -->
-      <div class="tactics-tags">
-        <span class="tag">انتحال صفة</span>
-        <span class="tag">طلب رمز تحقق</span>
-        <span class="tag">استعجال</span>
+        <!-- نص المكالمة (تمت إزالة class="chat-bubble call" الثابت ليعمل التصميم الديناميكي للقادم من السيرفر) -->
+        <div class="transcript-section">
+          <h3>نص المكالمة</h3>
+          <div *ngFor="let line of transcriptLines" [innerHTML]="line"></div>
+        </div>
+
+        <!-- التكتيكات المكتشفة -->
+        <div class="tactics-tags">
+          <span class="tag" *ngFor="let tactic of detectedTactics">{{ tactic.label }}</span>
+        </div>
       </div>
 
       <!-- أزرار الإجراءات -->
       <div class="report-actions">
         <button class="action-btn outline" (click)="saveReport()">حفظ</button>
-        <button class="action-btn solid" routerLink="/alert">مشاركة التقرير</button>
+        <button class="action-btn solid" (click)="currentScreen='home'">مشاركة التقرير</button>
       </div>
     </div>
 

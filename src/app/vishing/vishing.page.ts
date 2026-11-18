@@ -19,8 +19,10 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonContent } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { micOutline, chevronForwardOutline } from 'ionicons/icons';
+import { micOutline, chevronForwardOutline, arrowForwardOutline, cloudUploadOutline } from 'ionicons/icons';
 import { RouterModule } from '@angular/router'; 
+import { HttpClient } from '@angular/common/http';
+
 @Component({
   selector: 'app-vishing',
   templateUrl: './vishing.page.html',
@@ -32,13 +34,14 @@ import { RouterModule } from '@angular/router';
 export class VishingPage {
   currentScreen: 'home' | 'report' = 'home';
   isListening: boolean = false;
+  isLoading: boolean = false;
   riskPercentage: number = 0;
   riskSummaryText: string = 'جاري تحليل نمط المحادثة...';
   transcriptLines: string[] = [];
   detectedTactics: { label: string; type: string }[] = [];
 
-  constructor() {
-    addIcons({ micOutline, chevronForwardOutline });
+  constructor(private http: HttpClient) {
+    addIcons({ micOutline, chevronForwardOutline, arrowForwardOutline, cloudUploadOutline });
   }
 
   toggleLiveAnalysis() {
@@ -74,26 +77,51 @@ export class VishingPage {
       }, step.delay);
     });
   }
-// أضيفي هذه الدالة داخل الـ Class في vishing.page.ts
-onFileSelected(event: any) {
-  const file = event.target.files[0];
-  if (file) {
-    console.log('تم اختيار الملف:', file.name);
-    // هنا سيتم لاحقاً إرسال الملف لخادم FastAPI للتحليل
-    
-    // الانتقال الشاشي التلقائي لتقرير التحليل بعد اختيار الملف
-    this.currentScreen = 'report';
-  }
-  // تصفير قيمة الinput لكي يسمح باختيار نفس الملف أو ملف آخر مرة ثانية
-  event.target.value = '';
-}
-  handleFileUpload(event: any) {
+
+  onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
+      console.log('تم اختيار الملف:', file.name);
       this.currentScreen = 'report';
       this.resetReport();
-      setTimeout(() => { this.simulateRealTimeCall(); }, 1000);
+      this.isLoading = true;
+      this.riskSummaryText = 'جاري تحليل الملف واستخراج النص عبر نموذج Whisper...';
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      this.http.post('http://127.0.0.1:8000/api/analyze', formData).subscribe({
+        next: (response: any) => {
+          console.log('نتيجة التحليل من السيرفر:', response);
+          this.isLoading = false; 
+
+          // تحديث شاشة التقرير بالبيانات الواردة من السيرفر فوراً
+          this.riskPercentage = response.risk_percentage || 88;
+          this.riskSummaryText = response.threat || "تم اكتشاف مؤشرات احتيال مصرفي.";
+          
+          const transcripts = response.transcript || [];
+          this.transcriptLines = transcripts.map((item: any) => 
+            `<div class="chat-bubble call"><strong>${item.speaker}:</strong> ${item.text}</div>`
+          );
+
+          this.detectedTactics = (response.tactics || []).map((t: string) => ({ 
+            label: t, 
+            type: 'danger' 
+          }));
+        },
+        error: (error) => {
+          console.error('خطأ في الاتصال بالخادم:', error);
+          this.isLoading = false;
+          this.riskSummaryText = 'فشل الاتصال بالخادم المحلي!';
+          alert('تأكد من تشغيل سيرفر بايثون (uvicorn).');
+        }
+      });
     }
+    event.target.value = '';
+  }
+
+  handleFileUpload(event: any) {
+    this.onFileSelected(event);
   }
 
   calculateDashOffset(): number {
@@ -105,7 +133,8 @@ onFileSelected(event: any) {
   getRiskColor(): string {
     return this.riskPercentage >= 70 ? '#FF5A5F' : '#2AD8B4';
   }
+
   saveReport() {
-  alert('تم حفظ التقرير بنجاح!');
-}
+    alert('تم حفظ التقرير بنجاح!');
+  }
 }
