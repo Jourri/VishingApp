@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true" class="main-bg">
+<<ion-content [fullscreen]="true" class="main-bg">
   <div class="app-container" dir="rtl">
     
     <!-- شاشة الرئيسية -->
@@ -81,10 +81,12 @@
           <p>{{ riskSummaryText }}</p>
         </div>
 
-        <!-- نص المكالمة (تمت إزالة class="chat-bubble call" الثابت ليعمل التصميم الديناميكي للقادم من السيرفر) -->
+        <!-- نص المكالمة (تم التعديل لعرض الكائنات بشكل صحيح بدون استخدام innerHTML المعلق) -->
         <div class="transcript-section">
           <h3>نص المكالمة</h3>
-          <div *ngFor="let line of transcriptLines" [innerHTML]="line"></div>
+          <div *ngFor="let item of transcriptLines" class="chat-bubble call">
+            <strong>{{ item.speaker }}:</strong> {{ item.text }}
+          </div>
         </div>
 
         <!-- التكتيكات المكتشفة -->
